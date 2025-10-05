@@ -1,0 +1,14 @@
+@keyframes move {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(calc(var(--x-end) * 1px)) scale(0.8); opacity: 0; }
+}
+
+.ball {
+  position: absolute;
+  bottom: -200px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  animation: move linear infinite;
+  will-change: transform, opacity;
+  transform: translateZ(0); 
+}
