@@ -6,7 +6,7 @@ export default function WeddingInvite() {
   const initial = { name: "", attendance: "yes", alcohol: [], message: "" };
   const [form, setForm] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem("rsvp:vanya-masha")) || initial;
+      return JSON.parse(localStorage.getItem("rsvp:Юбилей")) || initial;
     } catch {
       return initial;
     }
@@ -15,7 +15,7 @@ export default function WeddingInvite() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    localStorage.setItem("rsvp:vanya-masha", JSON.stringify(form));
+    localStorage.setItem("rsvp:Юбилей", JSON.stringify(form));
   }, [form]);
 
   function handleChange(e) {
@@ -87,7 +87,7 @@ export default function WeddingInvite() {
     setForm(initial);
     setSubmitted(false);
     setErrors({});
-    localStorage.removeItem("rsvp:vanya-masha");
+    localStorage.removeItem("rsvp:Юбилей");
   }
 
   const alcoholOptions = [
@@ -137,7 +137,6 @@ export default function WeddingInvite() {
           id="hero"
           className="min-h-screen flex items-end md:items-center p-6 md:p-12 relative overflow-hidden"
         >
-
           <div className="max-w-3xl mx-auto text-center md:text-left pb-12 md:pb-0">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -357,7 +356,7 @@ export default function WeddingInvite() {
                       onClick={() => setForm(initial)}
                       className="px-4 py-3 rounded border border-zinc-700"
                     >
-                      Сбросить
+                      Отменить
                     </button>
                   </div>
 
