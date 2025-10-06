@@ -3,14 +3,12 @@ import cors from 'cors';
 import TelegramBot from 'node-telegram-bot-api';
 import fs from 'fs/promises';
 
-// --- CONFIGURATION ---
 const TELEGRAM_BOT_TOKEN = '8422053478:AAFRRb-wSHNJhc49m8O5d4-zSOS2iXoWnGg';
 const ADMIN_CHAT_IDS = ['5060105414', '6110524452'];
 const PORT = 3001;
 const DATA_FILE = './data.json';
 const GUEST_PAGE_SIZE = 5;
 
-// --- UTILITY FUNCTIONS ---
 const readData = async () => {
   try {
     const fileContent = await fs.readFile(DATA_FILE, 'utf8');
@@ -32,14 +30,12 @@ const writeData = async (data) => {
 
 const isAdmin = (chatId) => ADMIN_CHAT_IDS.includes(String(chatId));
 
-// --- TELEGRAM BOT & EXPRESS APP ---
 const app = express();
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
 
 app.use(cors());
 app.use(express.json());
 
-// --- RSVP ENDPOINT ---
 app.post('/api/rsvp', async (req, res) => {
   const newResponse = req.body;
   console.log('Получены данные:', newResponse);
@@ -68,7 +64,6 @@ ${message || 'пусто'}
   }
 });
 
-// --- TELEGRAM COMMANDS ---
 
 const sendGuestList = async (chatId, page = 0, messageId = null, callbackQueryId = null) => {
   const allResponses = await readData();
@@ -229,7 +224,6 @@ bot.onText( /\/stats/, async (msg) => {
     bot.sendMessage(msg.chat.id, statsMessage, { parse_mode: 'Markdown' });
 });
 
-// --- CALLBACK QUERY HANDLER ---
 bot.on('callback_query', async (callbackQuery) => {
   const msg = callbackQuery.message;
   const data = callbackQuery.data;
@@ -265,7 +259,6 @@ bot.on('callback_query', async (callbackQuery) => {
   }
 });
 
-// --- SERVER START ---
 app.listen(PORT, () => {
   console.log(`Сервер запущен на порту ${PORT}`);
 });
