@@ -6,11 +6,10 @@
 .ball {
   position: absolute;
   bottom: -200px;
-  /* Золотой градиент с бликом */
   background: radial-gradient(circle at 30% 30%, #FFF8DC, #FFD700, #B8860B);
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; /* Форма воздушного шара */
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; 
   animation: move linear infinite;
   will-change: transform, opacity;
-  transform: translateZ(0) rotate(-15deg); /* Небольшой наклон */
+  transform: translateZ(0) rotate(-15deg); 
 }
 

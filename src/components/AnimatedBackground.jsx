@@ -15,7 +15,7 @@ export default function AnimatedBackground() {
     const startX = Math.random() * 100;
     const endX = (Math.random() - 0.5) * 300;
 
-    const stringHeight = height * 0.4; // Длина веревочки
+    const stringHeight = height * 0.4; 
 
     balls.push(
       <div
@@ -30,7 +30,6 @@ export default function AnimatedBackground() {
           '--x-end': endX,
         }}
       >
-        {/* Волнистая веревочка с помощью SVG */}
         <svg 
           width="10"
           height={stringHeight}
