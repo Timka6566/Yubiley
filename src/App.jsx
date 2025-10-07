@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import AnimatedBackground from "./components/AnimatedBackground.jsx";
+import image from "C:/Users/104/Desktop/vanya-masha/src/assets/images/pisatlet2.jpg";
 
 export default function WeddingInvite() {
   const initial = { name: "", attendance: "yes", alcohol: [], message: "" };
@@ -91,7 +91,7 @@ export default function WeddingInvite() {
   }
 
   const alcoholOptions = [
-    "Игристое (сухое, Брют)",
+    "Игристое (сухое, брют)",
     "Игристое (полусладкое)",
     "Вино белое (сухое)",
     "Вино белое (полусладкое)",
@@ -114,117 +114,99 @@ export default function WeddingInvite() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white antialiased overflow-x-hidden">
-      <AnimatedBackground />
-      <header className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-b from-black/70 to-transparent backdrop-blur p-3">
-        <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="leading-4">
-              <div className="text-xs text-gray-300">Александр</div>
-              <div className="text-sm font-medium">27 сентября 2025</div>
-            </div>
-          </div>
-          <nav className="text-xs text-gray-300 hidden sm:flex gap-3">
-            <a href="#hero">Главная</a>
-            <a href="#program">Расписание</a>
-            <a href="#rsvp">RSVP</a>
-          </nav>
+    <main className="min-h-screen bg-white text-black antialiased overflow-x-hidden">
+      <header
+        className="relative w-full h-96 bg-cover bg-center"
+        style={{ backgroundImage: `url(${image})` }}
+      >
+        <div className="absolute inset-0 bg-gray/30 flex flex-col items-center justify-center text-center pt-20">
+          <h1
+            className="text-gold text-9xl  font-marck-script"
+            style={{ textShadow: "10px 8px 8px rgba(0, 0, 0, 0.5)" }}> 
+          
+          </h1>
+          <p
+            className="text-black text-4xl mt-20 max-w-md font-marck-script"
+            style={{ textShadow: "4px 1px 4px rgba(255, 255, 255, 1)" }}
+          >
+            <br />
+            <br />
+            <br />
+            <br />
+            
+            <br />
+            <br />
+            Дорогие друзья и близкие!
+            <br />
+            <br />
+            <br />
+            <br />
+          </p>
+        </div>
+        <div className="absolute inset-0 bg-gray/30 flex flex-col items-center justify-center text-center pt-20"> 
+          <p 
+           className="text-gold text-4xl mt-20 max-w-md font-marck-script"
+            style={{ textShadow: "1px 1px 1px rgba(0, 0, 0, 0.5)" }}
+            >
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+               Приглашаю вас отметить мой день рождения!
+            </p>
         </div>
       </header>
-
-      <div className="pt-20 relative z-10">
-        <section
-          id="hero"
-          className="min-h-screen flex items-end md:items-center p-6 md:p-12 relative overflow-hidden"
-        >
-          <div className="max-w-3xl mx-auto text-center md:text-left pb-12 md:pb-0">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ amount: 0.3 }}
-              transition={{ duration: 0.7 }}
-              className="text-4xl sm:text-5xl font-extrabold tracking-tight"
-            >
-              Ю Б И Л Е Й!
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ amount: 0.2 }}
-              transition={{ delay: 0.2 }}
-              className="mt-2 text-sm text-gray-300"
-            >
-              Приглашаю отметить свое день рождения и разделить этот теплый
-              вечер вместе со мной 20 декабря 2025 года!
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ amount: 0.2 }}
-              transition={{ delay: 0.4 }}
-              className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start"
-            >
-              <a
-                href="#rsvp"
-                className="inline-flex items-center justify-center px-5 py-3 rounded-full bg-rose-500 text-black font-semibold"
-              >
-                Подтвердить приход
-              </a>
-              <a
-                href="#program"
-                className="inline-flex items-center justify-center px-5 py-3 rounded-full border border-gray-700"
-              >
-                Расписание дня
-              </a>
-            </motion.div>
-          </div>
-        </section>
-
+      <div className="relative z-10">
         <section
           id="program"
-          className="min-h-screen p-6 md:p-12 bg-transparent"
+          className="p-6 md:p-12 bg-transparent"
         >
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-8">
             <motion.h2
               initial="hidden"
               whileInView="visible"
               variants={fadeUp}
-              className="text-2xl font-semibold mb-4"
+              className="text-4xl text-gold font-bad-script mb-3"
             >
-              Расписание
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              Буду очень рад видеть каждого из вас, чтобы отпраздновать это
+            замечательное событие вместе.
+            <br />
+            <br />
+              <div className="text-2xl text-black font-bad-script mb-3">
+                <center><h3>Жду вас</h3></center>
+              20 декабря 2025 года в 17:00 <br /> <br /><center>в Банкет холле</center><center>"Королева Вдохновения"</center> <br />
+              <div className="text-xl text-black font-bad-script mb-3">
+                по адресу: <a href="https://yandex.ru/profile/193952854290?lang=ru">ул. имени 40-летия Победы, 170/1</a>
+              </div>
+              </div>
             </motion.h2>
-            <div className="space-y-4">
-              <motion.article
-                initial={{ opacity: 0, x: 40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ amount: 0.25 }}
-                transition={{ delay: 0.12 }}
-                className="p-4 bg-zinc-900 rounded-xl border border-zinc-800"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-lg font-medium">
-                      Начало мероприятия
-                    </div>
-                  </div>
-                  <div className="text-sm text-gray-500">17:00</div>
-                </div>
-              </motion.article>
-            </div>
+           
             <motion.div
               className="mt-8 text-sm text-gray-400"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ amount: 0.2 }}
             >
-              Адрес: «Королева вдохновения», г. Краснодар, ул. имени 40-летия
-              Победы, 170/1 — рекомендую строить маршрут заранее!
             </motion.div>
           </div>
         </section>
 
-        <section id="rsvp" className="min-h-screen p-6 md:p-12 bg-transparent">
+        <section id="rsvp" className="p-6 md:p-12 bg-transparent">
           <div className="max-w-3xl mx-auto">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -239,15 +221,15 @@ export default function WeddingInvite() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ amount: 0.2 }}
-              className="bg-black/60 p-4 rounded-xl border border-zinc-800"
+              className="bg-gray-100 p-6 rounded-lg border border-gray-200"
             >
               {submitted ? (
-                <div className="text-green-400">
+                <div className="text-black-500">
                   Спасибо — ваш ответ получен. Спасибо за уделенное время!
                   <div className="mt-4">
                     <button
                       onClick={resetForm}
-                      className="px-4 py-2 rounded bg-zinc-800/70"
+                      className="px-4 py-2 rounded bg-gray-200"
                     >
                       Отправить другой ответ
                     </button>
@@ -256,14 +238,14 @@ export default function WeddingInvite() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-xs text-gray-300">
+                    <label className="block text-xs text-gray-700">
                       Ваше имя и фамилия
                     </label>
                     <input
                       name="name"
                       value={form.name}
                       onChange={handleChange}
-                      className="w-full mt-2 p-3 rounded bg-zinc-800 border border-zinc-700 text-white"
+                      className="w-full mt-2 p-3 rounded bg-white border border-gray-300 text-black"
                     />
                     {errors.name && (
                       <div className="text-rose-400 text-xs mt-1">
@@ -273,9 +255,9 @@ export default function WeddingInvite() {
                   </div>
 
                   <div>
-                    <div className="text-xs text-gray-300">Принять участие</div>
+                    <div className="text-xs text-gray-700">Принять участие</div>
                     <div className="mt-2 flex gap-2">
-                      <label className="inline-flex items-center gap-2 bg-zinc-800 p-2 rounded">
+                      <label className="inline-flex items-center gap-2 bg-gray-200 p-2 rounded">
                         <input
                           type="radio"
                           name="attendance"
@@ -285,7 +267,7 @@ export default function WeddingInvite() {
                         />
                         <span className="text-xs">Смогу</span>
                       </label>
-                      <label className="inline-flex items-center gap-2 bg-zinc-800 p-2 rounded">
+                      <label className="inline-flex items-center gap-2 bg-gray-200 p-2 rounded">
                         <input
                           type="radio"
                           name="attendance"
@@ -295,7 +277,7 @@ export default function WeddingInvite() {
                         />
                         <span className="text-xs">Может быть</span>
                       </label>
-                      <label className="inline-flex items-center gap-2 bg-zinc-800 p-2 rounded">
+                      <label className="inline-flex items-center gap-2 bg-gray-200 p-2 rounded">
                         <input
                           type="radio"
                           name="attendance"
@@ -309,14 +291,14 @@ export default function WeddingInvite() {
                   </div>
 
                   <div>
-                    <div className="text-xs text-gray-300">
+                    <div className="text-xs text-gray-700">
                       Какой алкоголь предпочитаете?
                     </div>
                     <div className="mt-2 grid grid-cols-2 gap-2">
                       {alcoholOptions.map((a) => (
                         <label
                           key={a}
-                          className="inline-flex items-center gap-2 bg-zinc-800 p-2 rounded text-xs"
+                          className="inline-flex items-center gap-2 bg-gray-200 p-2 rounded text-xs"
                         >
                           <input
                             type="checkbox"
@@ -332,29 +314,28 @@ export default function WeddingInvite() {
                   </div>
 
                   <div>
-                    <label className="block text-xs text-gray-300">
+                    <label className="block text-xs text-gray-700">
                       Сообщение / пожелание
                     </label>
                     <textarea
                       name="message"
                       value={form.message}
                       onChange={handleChange}
-                      className="w-full mt-2 p-3 rounded bg-zinc-800 border border-zinc-700 text-white"
+                      className="w-full mt-2 p-3 rounded bg-white border border-gray-300 text-black"
                       rows={4}
                     />
                   </div>
 
                   <div className="flex gap-3">
                     <button
-                      type="submit"
-                      className="flex-1 px-4 py-3 rounded bg-rose-500 text-black font-semibold"
-                    >
-                      Отправить
+                     type="submit"
+                      className="flex-1 px-4 py-3 rounded bg-yellow-600 text-black font-semibold"
+                    > Отправить
                     </button>
                     <button
                       type="button"
                       onClick={() => setForm(initial)}
-                      className="px-4 py-3 rounded border border-zinc-700"
+                      className="px-4 py-3 rounded border border-gray-300 bg-gray-200 hover:bg-gray-300"
                     >
                       Отменить
                     </button>
@@ -370,8 +351,8 @@ export default function WeddingInvite() {
           </div>
         </section>
 
-        <section className="py-12 px-6 bg-black">
-          <div className="max-w-3xl mx-auto text-center text-sm text-gray-400">
+        <section className="py-12 px-6 bg-white">
+          <div className="max-w-3xl mx-auto text-center text-sm text-gray-600">
             <div className="mb-4">
               Контакты организатора: Анна —{" "}
               <a href="tel:+79628584593" className="underline">

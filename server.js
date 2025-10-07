@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import TelegramBot from 'node-telegram-bot-api';
 import fs from 'fs/promises';
-
 const TELEGRAM_BOT_TOKEN = '8422053478:AAFRRb-wSHNJhc49m8O5d4-zSOS2iXoWnGg';
 const ADMIN_CHAT_IDS = ['5060105414', '6110524452'];
 const PORT = 3001;
@@ -82,9 +81,9 @@ const sendGuestList = async (chatId, page = 0, messageId = null, callbackQueryId
   const keyboard = [];
   guestsOnPage.forEach(guest => {
     text += `--- ---\n👤 *${guest.name}*\n🥂 Алкоголь: ${guest.alcohol.join(', ') || 'не указан'}\n💬 Сообщение: _${guest.message || 'пусто'} _\n`;
-    keyboard.push([{ 
-      text: `❌ Удалить ${guest.name.split(' ')[0]}`, 
-      callback_data: `delete_${guest.originalIndex}_${currentPage}` 
+    keyboard.push([{
+      text: `❌ Удалить ${guest.name.split(' ')[0]}`,
+      callback_data: `delete_${guest.originalIndex}_${currentPage}`
     }]);
   });
   const paginationButtons = [];
@@ -109,119 +108,119 @@ const sendGuestList = async (chatId, page = 0, messageId = null, callbackQueryId
   } catch (error) {
     console.error("Ошибка отправки/редактирования списка гостей:", error);
     if (callbackQueryId && error.response && error.response.body.description.includes("message is not modified")) {
-        bot.answerCallbackQuery(callbackQueryId, { text: "На этой странице нет изменений." });
+      bot.answerCallbackQuery(callbackQueryId, { text: "На этой странице нет изменений." });
     } else if (!messageId) {
-        bot.sendMessage(chatId, "Ошибка при создании списка.");
+      bot.sendMessage(chatId, "Ошибка при создании списка.");
     }
   }
 };
 
-bot.onText( /\/start/, (msg) => {
+bot.onText(/\/start/, (msg) => {
   if (!isAdmin(msg.chat.id)) return;
   bot.sendMessage(msg.chat.id, "Бот активен. Команды:\n/stats - Общая статистика\n/list - Список гостей\n/alcohol - Статистика по алкоголю");
 });
 
-bot.onText( /\/list/, async (msg) => {
+bot.onText(/\/list/, async (msg) => {
   if (!isAdmin(msg.chat.id)) return;
   sendGuestList(msg.chat.id, 0);
 });
 
-bot.onText( /\/alcohol/, async (msg) => {
-    if (!isAdmin(msg.chat.id)) {
-        bot.sendMessage(msg.chat.id, "У вас нет прав.");
-        return;
-    }
-    const responses = await readData();
-    const attendingGuests = responses.filter(r => r.attendance === 'yes');
+bot.onText(/\/alcohol/, async (msg) => {
+  if (!isAdmin(msg.chat.id)) {
+    bot.sendMessage(msg.chat.id, "У вас нет прав.");
+    return;
+  }
+  const responses = await readData();
+  const attendingGuests = responses.filter(r => r.attendance === 'yes');
 
-    if (attendingGuests.length === 0) {
-        bot.sendMessage(msg.chat.id, "Пока нет ответов от гостей, которые придут.");
-        return;
-    }
+  if (attendingGuests.length === 0) {
+    bot.sendMessage(msg.chat.id, "Пока нет ответов от гостей, которые придут.");
+    return;
+  }
 
-    const alcoholPreferences = {};
-    let totalAlcoholChoices = 0;
+  const alcoholPreferences = {};
+  let totalAlcoholChoices = 0;
 
-    attendingGuests.forEach(guest => {
-        if (guest.alcohol && guest.alcohol.length > 0) {
-            guest.alcohol.forEach(drink => {
-                if (drink !== 'Не пью алкоголь') {
-                    alcoholPreferences[drink] = (alcoholPreferences[drink] || 0) + 1;
-                    totalAlcoholChoices++;
-                }
-            });
+  attendingGuests.forEach(guest => {
+    if (guest.alcohol && guest.alcohol.length > 0) {
+      guest.alcohol.forEach(drink => {
+        if (drink !== 'Не пью алкоголь') {
+          alcoholPreferences[drink] = (alcoholPreferences[drink] || 0) + 1;
+          totalAlcoholChoices++;
         }
-    });
-
-    if (totalAlcoholChoices === 0) {
-        bot.sendMessage(msg.chat.id, "Никто из гостей еще не выбрал алкоголь.");
-        return;
+      });
     }
+  });
 
-    let message = `🍾 *Статистика по алкоголю*\n\nВсего выбрано позиций: *${totalAlcoholChoices}*\n\n*По типам:*\n`;
-    for (const [drink, count] of Object.entries(alcoholPreferences)) {
-        message += `  - ${drink}: *${count}*\n`;
-    }
+  if (totalAlcoholChoices === 0) {
+    bot.sendMessage(msg.chat.id, "Никто из гостей еще не выбрал алкоголь.");
+    return;
+  }
 
-    bot.sendMessage(msg.chat.id, message, { parse_mode: 'Markdown' });
+  let message = `🍾 *Статистика по алкоголю*\n\nВсего выбрано позиций: *${totalAlcoholChoices}*\n\n*По типам:*\n`;
+  for (const [drink, count] of Object.entries(alcoholPreferences)) {
+    message += `  - ${drink}: *${count}*\n`;
+  }
+
+  bot.sendMessage(msg.chat.id, message, { parse_mode: 'Markdown' });
 });
 
-bot.onText( /\/stats/, async (msg) => {
-    if (!isAdmin(msg.chat.id)) {
-        bot.sendMessage(msg.chat.id, "У вас нет прав.");
-        return;
+bot.onText(/\/stats/, async (msg) => {
+  if (!isAdmin(msg.chat.id)) {
+    bot.sendMessage(msg.chat.id, "У вас нет прав.");
+    return;
+  }
+  const responses = await readData();
+  if (!responses || responses.length === 0) {
+    bot.sendMessage(msg.chat.id, "Пока нет ответов.");
+    return;
+  }
+  const totalResponses = responses.length;
+  const attending = responses.filter(r => r.attendance === 'yes');
+  const notAttending = responses.filter(r => r.attendance === 'no');
+  const maybe = responses.filter(r => r.attendance === 'maybe');
+  const alcoholPreferences = {};
+  const nonDrinkers = new Set();
+  attending.forEach(guest => {
+    if (guest.alcohol && guest.alcohol.length > 0) {
+      if (guest.alcohol.includes('Не пью алкоголь')) {
+        nonDrinkers.add(guest.name);
+      } else {
+        guest.alcohol.forEach(drink => {
+          alcoholPreferences[drink] = (alcoholPreferences[drink] || 0) + 1;
+        });
+      }
+    } else {
+      nonDrinkers.add(guest.name);
     }
-    const responses = await readData();
-    if (!responses || responses.length === 0) {
-        bot.sendMessage(msg.chat.id, "Пока нет ответов.");
-        return;
-    }
-    const totalResponses = responses.length;
-    const attending = responses.filter(r => r.attendance === 'yes');
-    const notAttending = responses.filter(r => r.attendance === 'no');
-    const maybe = responses.filter(r => r.attendance === 'maybe');
-    const alcoholPreferences = {};
-    const nonDrinkers = new Set();
-    attending.forEach(guest => {
-        if (guest.alcohol && guest.alcohol.length > 0) {
-            if (guest.alcohol.includes('Не пью алкоголь')) {
-                nonDrinkers.add(guest.name);
-            } else {
-                guest.alcohol.forEach(drink => {
-                    alcoholPreferences[drink] = (alcoholPreferences[drink] || 0) + 1;
-                });
-            }
-        } else {
-            nonDrinkers.add(guest.name);
-        }
-    });
-    const drinkersCount = attending.length - nonDrinkers.size;
-    let statsMessage = `📊 *Статистика по гостям*\n\nВсего ответов: *${totalResponses}*\n\n`;
-    statsMessage += `*Присутствие:*
+  });
+  const drinkersCount = attending.length - nonDrinkers.size;
+  let statsMessage = `📊 *Статистика по гостям*\n\nВсего ответов: *${totalResponses}*\n\n`;
+  statsMessage += `*Присутствие:*
 `;
-    statsMessage += `  - ✅ Придут: *${attending.length}*
+  statsMessage += `  - ✅ Придут: *${attending.length}*
 `;
-    statsMessage += `  - ❌ Не придут: *${notAttending.length}*
+  statsMessage += `  - ❌ Не придут: *${notAttending.length}*
 `;
-    statsMessage += `  - 🤔 Возможно: *${maybe.length}*
+  statsMessage += `  - 🤔 Возможно: *${maybe.length}*
 \n`;
-    if (attending.length > 0) {
-        statsMessage += `*Из тех, кто придет (${attending.length}):*
+  if (attending.length > 0) {
+    statsMessage += `*Из тех, кто придет (${attending.length}):*
 `;
-        statsMessage += `  - 🥂 Пьющие: *${drinkersCount}*
+    statsMessage += `  - 🥂 Пьющие: *${drinkersCount}*
 `;
-        statsMessage += `  - 🥤 Непьющие: *${nonDrinkers.size}*
+    statsMessage += `  - 🥤 Непьющие: *${nonDrinkers.size}*
 \n`;
-        if (Object.keys(alcoholPreferences).length > 0) {
-            statsMessage += `*Предпочтения по алкоголю (в /stats):*
+    if (Object.keys(alcoholPreferences).length > 0) {
+      statsMessage += `*Предпочтения по алкоголю (в /stats):*
 `;
-            for (const [drink, count] of Object.entries(alcoholPreferences)) {
-                statsMessage += `  - ${drink}: *${count}*
+      for (const [drink, count] of Object.entries(alcoholPreferences)) {
+        statsMessage += `  - ${drink}: *${count}*
 `;
-            }
-        }
+      }
     }
-    bot.sendMessage(msg.chat.id, statsMessage, { parse_mode: 'Markdown' });
+  }
+  bot.sendMessage(msg.chat.id, statsMessage, { parse_mode: 'Markdown' });
 });
 
 bot.on('callback_query', async (callbackQuery) => {
@@ -233,8 +232,8 @@ bot.on('callback_query', async (callbackQuery) => {
     return;
   }
   if (data === 'noop') {
-      bot.answerCallbackQuery(callbackQuery.id);
-      return;
+    bot.answerCallbackQuery(callbackQuery.id);
+    return;
   }
   const [action, ...params] = data.split('_');
   if (action === 'list' && params[0] === 'page') {
@@ -248,13 +247,13 @@ bot.on('callback_query', async (callbackQuery) => {
     const allResponses = await readData();
     const guestToDelete = allResponses[originalIndex];
     if (guestToDelete) {
-        const updatedResponses = allResponses.filter((_, index) => index !== originalIndex);
-        await writeData(updatedResponses);
-        console.log(`Админ ${chatId} удалил гостя:`, guestToDelete);
-        bot.answerCallbackQuery(callbackQuery.id, { text: `✅ Гость "${guestToDelete.name}" удален.` });
-        await sendGuestList(chatId, currentPage, msg.message_id, callbackQuery.id);
+      const updatedResponses = allResponses.filter((_, index) => index !== originalIndex);
+      await writeData(updatedResponses);
+      console.log(`Админ ${chatId} удалил гостя:`, guestToDelete);
+      bot.answerCallbackQuery(callbackQuery.id, { text: `✅ Гость "${guestToDelete.name}" удален.` });
+      await sendGuestList(chatId, currentPage, msg.message_id, callbackQuery.id);
     } else {
-        bot.answerCallbackQuery(callbackQuery.id, { text: '⚠️ Ошибка: Гость не найден. Возможно, уже удален?', show_alert: true });
+      bot.answerCallbackQuery(callbackQuery.id, { text: '⚠️ Ошибка: Гость не найден. Возможно, уже удален?', show_alert: true });
     }
   }
 });
